@@ -20,8 +20,8 @@ Page {
             }
 
             MenuItem {
-                text: qsTr("Show Page 2SSSSSS1111")
-                onClicked: python.aaa();
+                text: qsTr("Run Python - Random Number & Text")
+                onClicked: python.rand();
             }
         }
 
@@ -32,6 +32,7 @@ Page {
         // of the page, followed by our content.
         Column {
             id: column
+            //spacing: 10
 
             width: page.width
             spacing: Theme.paddingLarge
@@ -39,34 +40,50 @@ Page {
                 title: qsTr("UI Template")
             }
             Label {
+                id: mainLabel
                 x: Theme.horizontalPageMargin
-                text: qsTr("Hello Sailors")
+                text: qsTr("Text will be here")
                 color: Theme.secondaryHighlightColor
+                //font.pixelSize: Theme.fontSizeLarge
+            }
+
+            Label {
+                id: secondLabel
+                x: Theme.horizontalPageMargin
+                text: qsTr("Random will be here")
+                color: Theme.secondaryHighlightColor
+                font.pixelSize: Theme.fontSizeLarge
+            }
+
+            TextInput {
+                id: text1
+                text: qsTr('Enter Text')
+                color: Theme.primaryColor
                 font.pixelSize: Theme.fontSizeExtraLarge
+                //focus: true
+                //validator: IntValidator { bottom:0; top: 2000}
             }
         }
-    }
-
+    }    
     Python {
         id: python
 
         Component.onCompleted: {
             addImportPath(Qt.resolvedUrl('.'));
-/*
-            setHandler('progress', function(ratio) {
-                dlprogress.value = ratio;
+
+            setHandler('text', function(newvalue) {
+                mainLabel.text = newvalue;
             });
 
-            setHandler('finished', function(newvalue) {
-                page.downloading = false;
-                mainLabel.text = 'Color is ' + newvalue + '.';
-            });*/
+            setHandler('random', function(newvalue) {
+                secondLabel.text = newvalue;
+            });
 
             importModule('thingy', function () {});
-    }
+        }
 
-        function aaa() {
-            call('thingy.bbb', function () {});
+        function rand() {
+            call('thingy.rand', [text1.text]);
         }
 
         onError: {

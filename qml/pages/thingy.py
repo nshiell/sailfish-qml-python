@@ -2,7 +2,8 @@
 # -*- coding: utf-8 -*-
 
 import pyotherside
-import random
+from random import random
 
-def bbb():
-    pyotherside.send('finished', random.random())
+def rand(stuff):
+    pyotherside.send('text', stuff)
+    pyotherside.send('random', random())
